@@ -1,16 +1,16 @@
 {
-    "selfdrivebot": "Utilise ce fichier pour définir des fonctions customisées et bloques.\nRead more at https://makecode.microbit.org/blocks/custom",
-    "selfdrivebot.init_run": "configuration moteur selfdrivebot",
-    "selfdrivebot.init_run|param|run": "pin moteur, ex: AnalogPin.P1",
-    "selfdrivebot.init_steer": "configuration volant selfdrivebot",
-    "selfdrivebot.init_steer|param|steer": "pin moteur volant, ex: AnalogPin.P2",
-    "selfdrivebot.init_tracking_sensors": "configuration capteurs suiveur de ligne selfdrivebot",
-    "selfdrivebot.init_tracking_sensors|param|left": "pin suiveur de ligne gauche, ex: AnalogPin.P8",
-    "selfdrivebot.init_tracking_sensors|param|right": "pin suiveur de ligne droit, ex: AnalogPin.P9",
-    "selfdrivebot.init_us_sensor": "configuration capteur de mésure de distance",
-    "selfdrivebot.init_us_sensor|param|ultrasound": "pin capteur de mésure de distance, ex: AnalogPin.P10",
-    "selfdrivebot.run": "configure le moteur à la vitesse spécifiée",
-    "selfdrivebot.selfdrivebot_ultrasound": "obtient la distance mésurée",
-    "selfdrivebot.steer": "Configure la direction comme défini",
-    "selfdrivebot.tracking": "suivi de ligne"
-  }
+  "selfdrivebot": "Utilise ce fichier pour définir des fonctions customisées et bloques.\nRead more at https://makecode.microbit.org/blocks/custom",
+  "selfdrivebot.init_run": "configuration moteur selfdrivebot",
+  "selfdrivebot.init_run|param|run": "pin moteur, ex: AnalogPin.P1",
+  "selfdrivebot.init_steer": "configuration volant selfdrivebot",
+  "selfdrivebot.init_steer|param|steer": "pin moteur volant, ex: AnalogPin.P2",
+  "selfdrivebot.init_tracking_sensors": "configuration capteurs suiveur de ligne selfdrivebot",
+  "selfdrivebot.init_tracking_sensors|param|left": "pin suiveur de ligne gauche, ex: AnalogPin.P8",
+  "selfdrivebot.init_tracking_sensors|param|right": "pin suiveur de ligne droit, ex: AnalogPin.P9",
+  "selfdrivebot.init_us_sensor": "configuration capteur de mésure de distance",
+  "selfdrivebot.init_us_sensor|param|ultrasound": "pin capteur de mésure de distance, ex: AnalogPin.P10",
+  "selfdrivebot.run": "configure le moteur à la vitesse spécifiée",
+  "selfdrivebot.selfdrivebot_ultrasound": "obtient la distance mésurée",
+  "selfdrivebot.steer": "Configure la direction comme défini",
+  "selfdrivebot.tracking": "suivi de ligne"
+}
