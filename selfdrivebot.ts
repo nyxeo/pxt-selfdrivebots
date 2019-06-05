@@ -10,47 +10,48 @@ namespace selfdrivebot {
 
     export enum TrackingStateType {
         //% block="● ●" enumval=0
-        Tracking_State_0,
+        Tracking_State_1_1,
 
         //% block="● ◌" enumval=1
-        Tracking_State_1,
+        Tracking_State_1_0,
 
         //% block="◌ ●" enumval=2
-        Tracking_State_2,
+        Tracking_State_0_1,
 
         //% block="◌ ◌" enumval=3
-        Tracking_State_3,
+        Tracking_State_0_0,
     }
 
     export enum SpeedStateType {
+        
         //% block="● ◌ ◌ ◌" enumval=0
-        Speed_State_0,
+        Speed_State_25,
 
         //% block="◌ ● ◌ ◌" enumval=1
-        Speed_State_1,
+        Speed_State_50,
 
         //% block="◌ ◌ ● ◌" enumval=2
-        Speed_State_2,
+        Speed_State_75,
 
         //% block="◌ ◌ ◌ ●" enumval=3
-        Speed_State_3,
+        Speed_State_100,
     }
 
     export enum SteerStateType {
         //% block="● ◌ ◌ ◌ ◌" enumval=0
-        Steer_State_0,
+        Steer_State_top_left,
 
         //% block="◌ ● ◌ ◌ ◌" enumval=1
-        Steer_State_1,
+        Steer_State_left,
 
         //% block="◌ ◌ ● ◌ ◌" enumval=2
-        Steer_State_2,
+        Steer_State_center,
 
         //% block="◌ ◌ ◌ ● ◌" enumval=3
-        Steer_State_3,
+        Steer_State_right,
 
         //% block="◌ ◌ ◌ ◌ ●" enumval=4
-        Steer_State_4
+        Steer_State_top_right
     }
 
 
