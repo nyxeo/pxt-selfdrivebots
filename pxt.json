@@ -9,10 +9,10 @@
     "files": [
         "README.md",
         "selfdrivebot.ts",
-		"_locales/fr/selfdrivebot-jsdoc-strings.json",
-		"_locales/fr/selfdrivebot-strings.json",
-		"_locales/es/selfdrivebot-jsdoc-strings.json",
-		"_locales/es/selfdrivebot-strings.json"
+        "_locales/fr/selfdrivebot-jsdoc-strings.json",
+        "_locales/fr/selfdrivebot-strings.json",
+        "_locales/es/selfdrivebot-jsdoc-strings.json",
+        "_locales/es/selfdrivebot-strings.json"
     ],
     "testFiles": [],
     "public": true
