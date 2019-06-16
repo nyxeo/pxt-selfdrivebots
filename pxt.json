@@ -1,6 +1,6 @@
 {
     "name": "selfdrivebot",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Self Drive bots",
     "license": "MIT",
     "dependencies": {
