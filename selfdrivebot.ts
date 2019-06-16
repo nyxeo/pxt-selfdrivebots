@@ -39,7 +39,7 @@ namespace selfdrivebot {
 
     export enum SteerStateType {
         //% block="● ◌ ◌ ◌ ◌" enumval=0
-        Steer_State_top_left,
+        Steer_State_full_left,
 
         //% block="◌ ● ◌ ◌ ◌" enumval=1
         Steer_State_left,
@@ -51,7 +51,7 @@ namespace selfdrivebot {
         Steer_State_right,
 
         //% block="◌ ◌ ◌ ◌ ●" enumval=4
-        Steer_State_top_right
+        Steer_State_full_right
     }
 
 
@@ -66,7 +66,7 @@ namespace selfdrivebot {
         Distance_Unit_inch,
     }
 
-    let pin_run_motor = AnalogPin.P1
+    let pin_run_motor = AnalogPin.P0
     let pin_steer_motor = AnalogPin.P14
     let pin_ultrasound_trig = AnalogPin.P10
     let pin_ultrasound_echo = AnalogPin.P3
@@ -75,11 +75,11 @@ namespace selfdrivebot {
 
     /**
     * initialization selfdrivebot car control
-    * @param run run motor pin, ex: AnalogPin.P1
-    * @param steer steer motor pin, ex: AnalogPin.P2
+    * @param run run motor pin, ex: AnalogPin.P0
     */
     //% weight=10
     //% blockId=selfdrivebot_init_run block="set run motor at pin %run"
+    //% group="Configuration"
     export function init_run(run: AnalogPin): void {
         // Add code here
         pin_run_motor = run
@@ -92,6 +92,7 @@ namespace selfdrivebot {
     */
     //% weight=10
     //% blockId=selfdrivebot_init_steer block="set steer motor at pin %steer"
+    //% group="Configuration"
     export function init_steer(steer: AnalogPin): void {
         // Add code here
         pin_steer_motor = steer
@@ -105,6 +106,7 @@ namespace selfdrivebot {
     */
     //% weight=10
     //% blockId=selfdrivebot_init_ultrasound block="set ultrasound trigger at %trig| and echo at %echo"
+    //% group="Configuration"
     export function init_us_sensor(trig: AnalogPin, echo: AnalogPin): void {
         // Add code here
         pin_ultrasound_trig = trig
@@ -119,6 +121,7 @@ namespace selfdrivebot {
     */
     //% weight=10
     //% blockId=selfdrivebot_init_tracking block="set left tracking sensor at %left| and right at %right"
+    //% group="Configuration"
     export function init_tracking_sensors(left: DigitalPin, right: DigitalPin): void {
         // Add code here
         pin_tracker_left = left
@@ -131,8 +134,24 @@ namespace selfdrivebot {
 	*/
 	//% block="crickit run at $speed \\%"
     //% blockId=selfdrivebot_move_forward block="move forward at %speed"
-	export function move_forward(speed: SpeedStateType) {
-
+    //% group="Control"
+    export function move_forward(speed: SpeedStateType) {
+        // min = 500, max = 2500, defl = 1500
+        switch(speed) {
+            case SpeedStateType.Speed_State_25 :
+                pins.servoSetPulse(pin_run_motor, 500)
+                break;
+            case SpeedStateType.Speed_State_50 :
+                pins.servoSetPulse(pin_run_motor, 750)
+                break;
+            case SpeedStateType.Speed_State_75 :
+                pins.servoSetPulse(pin_run_motor, 1000)
+                break;
+            case SpeedStateType.Speed_State_100 :
+                pins.servoSetPulse(pin_run_motor, 1250)
+                break;
+            default :      
+        }
     }
     
     /**
@@ -140,16 +159,33 @@ namespace selfdrivebot {
 	*/
 	//% block="crickit run at $speed \\%"
     //% blockId=selfdrivebot_move_backward block="move backward at %speed"
+    //% group="Control"
 	export function move_backward(speed: SpeedStateType) {
-
+        // min = 500, max = 2500, defl = 1500
+        switch(speed) {
+            case SpeedStateType.Speed_State_25 :
+                pins.servoSetPulse(pin_run_motor, 2500) 
+                break;
+            case SpeedStateType.Speed_State_50 :
+                pins.servoSetPulse(pin_run_motor, 2250) 
+                break;
+            case SpeedStateType.Speed_State_75 :
+                pins.servoSetPulse(pin_run_motor, 2000) 
+                break;
+            case SpeedStateType.Speed_State_100 :
+                pins.servoSetPulse(pin_run_motor, 1750) 
+                break;
+            default :      
+        }
     }
     
     /**
 	* Brakes the motor
 	*/
     //% blockId=selfdrivebot_brake block="brake"
+    //% group="Control"
 	export function brake() {
-
+        pins.analogWritePin(pin_run_motor, 0)
 	}
 	
 	/**
@@ -157,8 +193,30 @@ namespace selfdrivebot {
 	*/
 	//% block="steer $turnRatio"
     //% blockId=selfdrivebot_steer block="steer at %turnRatio"
+    //% group="Control"
 	export function steer(turnRatio: SteerStateType) {
-        pins.servoSetPulse(pin_steer_motor, 600)
+        // minAngle = 0, maxAngle=180
+        pins.servoWritePin(pin_steer_motor, 600)
+        switch(turnRatio) {
+            case SteerStateType.Steer_State_full_right:
+                pins.servoWritePin(pin_steer_motor, 0);
+                break;
+            case SteerStateType.Steer_State_right:
+                pins.servoWritePin(pin_steer_motor, 45);
+                break;
+            case SteerStateType.Steer_State_center:
+                pins.servoWritePin(pin_steer_motor, 90)
+                break;
+            case SteerStateType.Steer_State_left:
+                pins.servoWritePin(pin_steer_motor, 135)
+                break;
+            case SteerStateType.Steer_State_full_left:
+                pins.servoWritePin(pin_steer_motor, 180)
+                break;
+            
+            default : 
+                
+        }
 	}
 
 
@@ -168,6 +226,7 @@ namespace selfdrivebot {
     //% weight=10
     //% advanced=true
     //% blockId=selfdrivebot_tracking block="tracking state is %state"
+    //% group="Perception"
     export function tracking(state: TrackingStateType): boolean {
         
         return true
@@ -182,6 +241,7 @@ namespace selfdrivebot {
     //% weight=9
     //% advanced=true
     //% blockId=selfdrivebot_ultrasound block="ultrasonic distance in unit %distance_unit"
+    //% group="Perception"
     export function selfdrivebot_ultrasound(distance_unit: Distance_Unit): number {
 
         return 0
