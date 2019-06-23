@@ -67,11 +67,11 @@ namespace selfdrivebot {
     }
 
     let pin_run_motor = AnalogPin.P0
-    let pin_steer_motor = AnalogPin.P14
-    let pin_ultrasound_trig = AnalogPin.P10
-    let pin_ultrasound_echo = AnalogPin.P3
-    let pin_tracker_left = DigitalPin.P8
-    let pin_tracker_right = DigitalPin.P9
+    let pin_steer_motor = AnalogPin.P1
+    let pin_ultrasound_trig = DigitalPin.P11
+    let pin_ultrasound_echo = DigitalPin.P12
+    let pin_tracker_left = DigitalPin.P13
+    let pin_tracker_right = DigitalPin.P14
 
     /**
     * initialization selfdrivebot car control
@@ -107,11 +107,10 @@ namespace selfdrivebot {
     //% weight=10
     //% blockId=selfdrivebot_init_ultrasound block="set ultrasound trigger at %trig| and echo at %echo"
     //% group="Configuration"
-    export function init_us_sensor(trig: AnalogPin, echo: AnalogPin): void {
+    export function init_us_sensor(trig: DigitalPin, echo: DigitalPin): void {
         // Add code here
-        pin_ultrasound_trig = trig
-        pin_ultrasound_echo = echo
-
+        pin_ultrasound_trig = trig;
+        pin_ultrasound_echo = echo;
     }
 
     /**
@@ -151,6 +150,16 @@ namespace selfdrivebot {
                 pins.servoSetPulse(pin_run_motor, 1250)
                 break;
             default :      
+        }
+
+        basic.clearScreen();
+
+        for (let i = 0; i < 5; i++) {
+            led.plot(0, i)
+            led.plot(4, i)
+            led.plot(i, 0)
+            led.plot(i, 4)
+            basic.pause(500)
         }
     }
     
@@ -229,7 +238,34 @@ namespace selfdrivebot {
     //% group="Perception"
     export function tracking(state: TrackingStateType): boolean {
         
-        return true
+        led.enable(false);
+        
+        let leftValue = pins.digitalReadPin(pin_tracker_left);
+        let rightValue = pins.digitalReadPin(pin_tracker_right);
+
+        led.enable(true);
+
+        if (leftValue)  led.plot(0, 0)
+        else led.unplot(0,0)
+
+        if (rightValue)  led.plot(4, 0)
+        else led.unplot(4,0)
+
+        switch (state)  {
+            case TrackingStateType.Tracking_State_0_0 :
+                if (leftValue && rightValue)  return true;
+                break;
+            case TrackingStateType.Tracking_State_0_1 :
+                if (leftValue && (!rightValue))  return true;
+                break;
+            case TrackingStateType.Tracking_State_1_0 :
+                if ((!leftValue) && rightValue)  return true;
+                break;
+            case TrackingStateType.Tracking_State_1_1 :
+                if (leftValue || rightValue)  return true;
+                break;
+        }
+        return false;
     
     }
 
@@ -244,7 +280,28 @@ namespace selfdrivebot {
     //% group="Perception"
     export function selfdrivebot_ultrasound(distance_unit: Distance_Unit): number {
 
-        return 0
+        let maxCmDistance = 500;  // maximum distance in centimeters = 500
+
+        // send pulse
+        pins.setPull(pin_ultrasound_trig, PinPullMode.PullNone);
+        pins.digitalWritePin(pin_ultrasound_trig, 0);
+        control.waitMicros(2);
+        pins.digitalWritePin(pin_ultrasound_trig, 1);
+        control.waitMicros(10);
+        pins.digitalWritePin(pin_ultrasound_trig, 0);
+
+        // read pulse
+        const d = pins.pulseIn(pin_ultrasound_echo, PulseValue.High, maxCmDistance * 58);
+
+        switch (distance_unit) {
+            case Distance_Unit.Distance_Unit_cm: 
+                return d/58;
+            case Distance_Unit.Distance_Unit_inch: 
+                return parseInt.d/148;
+            default: 
+                return d ;
+        }
+
     }
 
 
